@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_bootstrap5',
-    'compressor',
     'journal_app',
 ]
 
@@ -127,15 +126,6 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = 'images/'
-
-STATICFILES_FINDERS = [
-    'compressor.finders.CompressorFinder'
-]
-
-COMPRESS_ROOT = os.path.join(BASE_DIR, 'static/style/')
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
