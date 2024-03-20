@@ -24,4 +24,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('public', views.list_journals, name='list_journals'),
+    path('journal', views.detail_journal, name='detail_journal'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
