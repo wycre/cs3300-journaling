@@ -4,7 +4,7 @@
 
 <!-- Replace block content in base_template.html -->
 {% block content %}
-<div class="container-lg m-4">
+<div class="container m-4 p-2" style="max-width: 80rem; margin: 1rem auto 1rem !important;">
     <h1>List of Public Journals</h1>
     <div id="journ-cards" class="container-lg">
         <div class="d-flex flex-row flex-wrap">
@@ -28,7 +28,7 @@
             {% endfor %}
         </div>
     </div>
-</div>
+</>
 
 
 {% endblock %}
