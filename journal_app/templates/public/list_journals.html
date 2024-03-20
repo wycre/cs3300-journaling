@@ -4,11 +4,8 @@
 
 <!-- Replace block content in base_template.html -->
 {% block content %}
-
-<h1>List of Public Journals</h1>
-
-
-<div class="container-lg">
+<div class="container-lg m-4">
+    <h1>List of Public Journals</h1>
     <div id="journ-cards" class="container-lg">
         <div class="d-flex flex-row flex-wrap">
             {% for i in journals %}
