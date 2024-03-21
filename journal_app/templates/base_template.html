@@ -48,6 +48,21 @@
         .border-select-hover:hover .card-body {
             padding: 16px 14.88334px 14.88334px;
         }
+
+        {# These two exist to enable nested links inside cards #}
+        {# The link that covers the card must be absolute #}
+        .card-cover-link::after {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              bottom: 0;
+        }
+        {# The card itself & the inside must be relative #}
+        .card {
+            position: relative;
+        }
     </style>
 </head>
 

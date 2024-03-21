@@ -18,6 +18,15 @@ def list_journals(request):
     return render(request, "public/list_journals.html", context)
 
 
+def list_journals_all(request):
+    """Lists all journals in a backend context"""
+    context = {}
+
+    context["journals"] = Journal.objects.all()
+
+    return render(request, "backend/list_journals_all.html", context)
+
+
 def detail_journal(request):
     """Shows details about a specific journal"""
     context = {}
@@ -36,5 +45,3 @@ def detail_journal(request):
 
     except Journal.DoesNotExist:
         return redirect('/public?invalid_id=1')
-
-
