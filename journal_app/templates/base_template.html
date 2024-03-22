@@ -63,6 +63,12 @@
         .card {
             position: relative;
         }
+
+
+        .centered-body {
+            max-width: 85rem;
+            margin: 1rem auto 1rem !important;
+        }
     </style>
 </head>
 
@@ -71,24 +77,26 @@
 
     <!-- Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <img src="{% static 'images/logo.svg' %}" style="max-width: 250px">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <!--  {% url 'index' %}  is defined in url path to dynamically create url -->
-                    <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
-                    <a class="nav-link" href="/public">Public Journals</a>
-                    <a class="nav-link" href="/backend/journals">All Journals (Temp)</a>
+        <div class="d-flex flex-row align-items-start">
+            <img src="{% static 'images/logo.svg' %}" style="max-width: 250px">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <!--  {% url 'index' %}  is defined in url path to dynamically create url -->
+                        <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+                        <a class="nav-link" href="/public">Public Journals</a>
+                        <a class="nav-link" href="/profile/journals">My Journals</a>
 
-                    {#             {% if user.is_authenticated %}#}
-                    {#               <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">Logout {{user}}</a>#}
-                    {#             {% else %}#}
-                    {#               <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>#}
-                    {#             {% endif %}#}
+                        {#             {% if user.is_authenticated %}#}
+                        {#               <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">Logout {{user}}</a>#}
+                        {#             {% else %}#}
+                        {#               <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>#}
+                        {#             {% endif %}#}
+                    </div>
                 </div>
             </div>
         </div>

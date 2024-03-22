@@ -4,9 +4,12 @@
 
 <!-- Replace block content in base_template.html -->
 {% block content %}
-<div class="container m-4 p-2" style="max-width: 80rem; margin: 1rem auto 1rem !important;">
-    <h1>List of All Journals</h1>
-    <div id="journ-cards" class="container-lg">
+<div class="container m-4 p-2 centered-body">
+    <div class="d-flex flex-row justify-content-between align-items-center mb-2">
+        <h1 class="mb-0">My Journals</h1>
+        <a href="/journal?new=1" class="btn btn-primary">New Journal</a>
+    </div>
+    <div id="journ-cards" class="container-fluid">
 
         {# This flexbox manages all the cards #}
         <div class="d-flex flex-row flex-wrap align-items-stretch">

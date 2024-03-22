@@ -18,13 +18,13 @@ def list_journals(request):
     return render(request, "public/list_journals.html", context)
 
 
-def list_journals_all(request):
-    """Lists all journals in a backend context"""
+def list_journals_own(request):
+    """Lists all journals owned by the requestor (TODO authorization not impl yet)"""
     context = {}
 
     context["journals"] = Journal.objects.all()
 
-    return render(request, "backend/list_journals_all.html", context)
+    return render(request, "authed/list_journals_own.html", context)
 
 
 def detail_journal(request):

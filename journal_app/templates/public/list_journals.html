@@ -4,9 +4,9 @@
 
 <!-- Replace block content in base_template.html -->
 {% block content %}
-<div class="container m-4 p-2" style="max-width: 80rem; margin: 1rem auto 1rem !important;">
+<div class="container m-4 p-2 centered-body">
     <h1>List of Public Journals</h1>
-    <div id="journ-cards" class="container-lg">
+    <div id="journ-cards" class="container-fluid">
         <div class="d-flex flex-row flex-wrap">
             {% for i in journals %}
                 <a href="/journal?id={{ i.id }}" class="unstyled-container-link m-1">
@@ -20,7 +20,7 @@
                                 <p>{{ i.memo|linebreaksbr|truncatechars:100 }}</p>
                             </div>
                             <div class="container border rounded">
-                                <p>TODO: Most recent post will go here</p>
+                                <p class="m-0">TODO: Most recent post will go here</p>
                             </div>
                         </div>
                     </div>
