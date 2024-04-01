@@ -1,6 +1,9 @@
+from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
+from journal_app.forms import CreateUserForm
 from journal_app.models import Journal
 
 
@@ -45,3 +48,24 @@ def detail_journal(request):
 
     except Journal.DoesNotExist:
         return redirect('/public?invalid_id=1')
+
+
+def register(request):
+    """Register a new User account"""
+    form = CreateUserForm()
+
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='user_role')
+            user.groups.add(group)
+
+            messages.success(request, "Account was created for " + username)
+
+            return redirect('login')
+
+    context = {'form':form}
+    return render(request, "registration/register.html", context)
+
