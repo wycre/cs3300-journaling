@@ -6,4 +6,10 @@ from journal_app.models import Journal
 class JournalForm(forms.ModelForm):
     class Meta:
         model = Journal
-        fields = ['title', 'author', 'memo', 'is_public', 'journal_icon']
+        fields = ['title', 'author_name', 'memo', 'is_public', 'journal_icon']
+
+    # Make image field not required
+    def __init__(self, *args, **kwargs):
+        super(JournalForm, self).__init__(*args, **kwargs)
+        self.fields['journal_icon'].required = False
+        self.fields['memo'].strip = False

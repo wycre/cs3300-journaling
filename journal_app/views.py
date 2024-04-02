@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
+from journal_app.forms import JournalForm
 from journal_app.models import Journal
 
 
@@ -32,6 +33,7 @@ def detail_journal(request):
     context = {}
 
     journal_id = request.GET.get("id", False)
+    is_editing = request.GET.get("edit", False)
 
     # Guard clause if no id provided
     if not journal_id:
@@ -39,9 +41,52 @@ def detail_journal(request):
         redirect('/public?invalid_id=1')
 
     # Begin logic branch
-    try:
-        context["journal"] = Journal.objects.get(id=journal_id)
-        return render(request, "public/detail_journal.html", context)
+    if request.method == "GET":
 
-    except Journal.DoesNotExist:
-        return redirect('/public?invalid_id=1')
+        try:
+            # Generate & return form
+            if is_editing:
+                context["journal"] = Journal.objects.get(id=journal_id)
+
+                form = JournalForm(instance=context["journal"])
+                context["form"] = form
+
+                return render(request, "authed/forms/journal_edit_form.html", context)
+
+            # otherwise send journal details
+            context["journal"] = Journal.objects.get(id=journal_id)
+            return render(request, "public/detail_journal.html", context)
+
+        except Journal.DoesNotExist:
+            return redirect('/public?invalid_id=1')
+
+    if request.method == "POST":
+        form = JournalForm(request.POST, request.FILES)
+
+        try:
+            journal = Journal.objects.get(id=journal_id)
+            context["journal"] = journal
+
+            # Apply form values to db
+            if form.is_valid():
+                journal.title = form.cleaned_data["title"]
+                journal.author = form.cleaned_data["author_name"]
+                journal.memo = form.cleaned_data["memo"]
+                journal.is_editing = form.cleaned_data["is_public"]
+
+                # journal icon is optional
+                if form.cleaned_data["journal_icon"]:
+                    journal.journal_icon = form.cleaned_data["journal_icon"]
+
+                journal.save()
+
+                context["journal"] = journal
+                return redirect('/journal?id={}'.format(journal_id))
+
+            else:
+                context["form"] = form
+                return render(request, "authed/forms/journal_edit_form.html", context)
+
+        except Journal.DoesNotExist:
+            return redirect('/public?invalid_id=1')
+
