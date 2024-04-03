@@ -9,4 +9,4 @@ class Journal(models.Model):
     author_name = models.CharField(max_length=200, blank=False)
     memo = models.TextField(max_length=500, blank=False)
     is_public = models.BooleanField(default=False)
-    journal_icon = models.ImageField(upload_to='uploads/journal_icons')
+    journal_icon = models.ImageField(upload_to='uploads/journal_icons', default='defaults/journal_icon.svg')

@@ -75,7 +75,7 @@ def detail_journal(request):
                 journal.is_editing = form.cleaned_data["is_public"]
 
                 # journal icon is optional
-                if form.cleaned_data["journal_icon"]:
+                if request.FILES.get("journal_icon", False):
                     journal.journal_icon = form.cleaned_data["journal_icon"]
 
                 journal.save()
@@ -90,3 +90,44 @@ def detail_journal(request):
         except Journal.DoesNotExist:
             return redirect('/public?invalid_id=1')
 
+
+def new_journal(request):
+    """Form for creating a Journal"""
+    context = {}
+
+    # TODO: Add User Auth Check for Journal Ownership
+
+    # Make Empty Journal
+    if request.method == "GET":
+        form = JournalForm()
+        context["form"] = form
+
+        return render(request, "authed/forms/journal_create_form.html", context)
+
+    # Handle Filled Journal
+    if request.method == "POST":
+        form = JournalForm(request.POST, request.FILES)
+
+        # Apply form values to db
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            author = form.cleaned_data["author_name"]
+            memo = form.cleaned_data["memo"]
+            is_public = form.cleaned_data["is_public"]
+
+            journal_icon = None
+
+            # journal icon is optional
+            if form.cleaned_data["journal_icon"]:
+                journal_icon = form.cleaned_data["journal_icon"]
+                journal = Journal.objects.create(title=title, author_name=author, memo=memo, is_public=is_public,
+                                                 journal_icon=journal_icon)
+            else:
+                journal = Journal.objects.create(title=title, author_name=author, memo=memo, is_public=is_public)
+
+            context["journal"] = journal
+            return redirect('/journal?id={}'.format(journal.id))
+
+        else:
+            context["form"] = form
+            return render(request, "authed/forms/journal_create_form.html", context)
