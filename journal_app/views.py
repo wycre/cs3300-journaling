@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django import forms
 
 from journal_app.forms import JournalForm
 from journal_app.models import Journal
@@ -72,7 +73,7 @@ def detail_journal(request):
                 journal.title = form.cleaned_data["title"]
                 journal.author = form.cleaned_data["author_name"]
                 journal.memo = form.cleaned_data["memo"]
-                journal.is_editing = form.cleaned_data["is_public"]
+                journal.is_public = form.cleaned_data["is_public"]
 
                 # journal icon is optional
                 if request.FILES.get("journal_icon", False):
@@ -131,3 +132,44 @@ def new_journal(request):
         else:
             context["form"] = form
             return render(request, "authed/forms/journal_create_form.html", context)
+
+
+def delete_journal(request):
+    """Form to delete a journal"""
+    context = {}
+
+    journal_id = request.GET.get("id", False)
+
+    # Guard clause if no id provided
+    if not journal_id:
+        # TODO modify list_journals to popup a warning if this happens
+        redirect('/public?invalid_id=1')
+
+    # Begin logic branch
+    if request.method == "GET":
+
+        try:
+            context["journal"] = Journal.objects.get(id=journal_id)
+
+            form = forms.Form()
+            context["form"] = form
+
+            return render(request, "authed/forms/journal_delete_form.html", context)
+
+        except Journal.DoesNotExist:
+            return redirect('/public?invalid_id=1')
+
+    if request.method == "POST":
+        form = forms.Form(request.POST)
+
+        try:
+            journal = Journal.objects.get(id=journal_id)
+            context["journal"] = journal
+
+            # Delete form
+            if form.is_valid():
+                journal.delete()
+                return redirect('/public')
+
+        except Journal.DoesNotExist:
+            return redirect('/public?invalid_id=1')

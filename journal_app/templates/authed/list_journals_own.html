@@ -7,7 +7,7 @@
 <div>
     <div class="d-flex flex-row justify-content-between align-items-center mb-2">
         <h1 class="mb-0">My Journals</h1>
-        <a href="/journal?new=1" class="btn btn-primary">New Journal</a>
+        <a href="/journal/new" class="btn btn-primary">New Journal</a>
     </div>
     <div id="journ-cards" class="container-fluid">
 
@@ -40,7 +40,7 @@
                                 {# This div holds the outlink buttons #}
                                 <div class="d-flex container align-self-end mt-2 justify-content-around flex-row">
                                     <a href="/journal?id={{ i.id }}&edit=1" class="btn btn-secondary ms-2 flex-grow-1 position-relative" style="flex-basis: 0;">Edit</a>
-                                    <a href="/journal?id={{ i.id }}&del=1" class="btn btn-danger ms-2 flex-grow-1 position-relative" style="flex-basis: 0;">Delete</a>
+                                    <a href="/journal/delete?id={{ i.id }}" class="btn btn-danger ms-2 flex-grow-1 position-relative" style="flex-basis: 0;">Delete</a>
                                 </div>
 
                             </div>

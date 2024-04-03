@@ -21,7 +21,8 @@
             <textarea type="text" id="memo" name="memo" class="form-control" rows=5>{{ form.memo.value }}</textarea>
             <br />
 
-            <input type="checkbox" id="is_public" name="is_public" class="form-check-input" checked={{ form.is_public.value }}>
+            <input type="checkbox" id="is_public" name="is_public" class="form-check-input"
+                   {% if form.is_public.value == True %}checked{% endif %}>
             <label for="is_public" class="form-check-label">Make this journal public? </label>
             <br /> <br />
 
@@ -33,7 +34,11 @@
             <input type="file" id="journal_icon" name="journal_icon" class="form-control" value={{ form.journal_icon.value }}>
             <br /> <br />
 
-            <input type="submit" class="btn btn-primary" name="Update Form" />
+            <div class="d-flex flex-row justify-content-between">
+                <input type="submit" class="btn btn-primary" style="width:10rem" name="Update Form" value="Save Changes" />
+                <a href="/journal?id={{ journal.id }}" class="btn btn-secondary" style="width: 10rem;">Cancel</a>
+                <a href="/journal/delete?id={{ journal.id }}" class="btn btn-danger" style="width:10rem">Delete Journal</a>
+            </div>
         </form>
         {{form.errors}}
     </div>
