@@ -35,9 +35,13 @@
             <br /> <br />
 
             <div class="d-flex flex-row justify-content-between">
-                <input type="submit" class="btn btn-primary" style="width:10rem" name="Update Form" value="Save Changes" />
-                <a href="/journal?id={{ journal.id }}" class="btn btn-secondary" style="width: 10rem;">Cancel</a>
-                <a href="/journal/delete?id={{ journal.id }}" class="btn btn-danger" style="width:10rem">Delete Journal</a>
+                <input type="submit" class="btn btn-primary ms-1" style="width:10rem" name="Update Form" value="Save Changes" />
+                <a href="/journal?id={{ journal.id }}" class="btn btn-secondary flex-shrink-1 ms-1" style="width: 10rem;">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 100%">
+                        <p class="m-0">Cancel</p>
+                    </div>
+                </a>
+                <a href="/journal/delete?id={{ journal.id }}" class="btn btn-danger ms-1 flex-shrink-1" style="width:10rem">Delete Journal</a>
             </div>
         </form>
         {{form.errors}}
