@@ -115,16 +115,10 @@ def new_journal(request):
             author = form.cleaned_data["author_name"]
             memo = form.cleaned_data["memo"]
             is_public = form.cleaned_data["is_public"]
+            journal_icon = form.cleaned_data["journal_icon"] # Will contain default if not provided
 
-            journal_icon = None
-
-            # journal icon is optional
-            if form.cleaned_data["journal_icon"]:
-                journal_icon = form.cleaned_data["journal_icon"]
-                journal = Journal.objects.create(title=title, author_name=author, memo=memo, is_public=is_public,
-                                                 journal_icon=journal_icon)
-            else:
-                journal = Journal.objects.create(title=title, author_name=author, memo=memo, is_public=is_public)
+            journal = Journal.objects.create(title=title, author_name=author, memo=memo, is_public=is_public,
+                                             journal_icon=journal_icon)
 
             context["journal"] = journal
             return redirect('/journal?id={}'.format(journal.id))
