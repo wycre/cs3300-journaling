@@ -1,0 +1,42 @@
+<!-- inherit from base.html-->
+{% extends "base_template.html" %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+    <h2 class="centered-body-narrow">New Journal</h2>
+<div class="container m-4 border rounded p-2 centered-body-narrow">
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="title" class="form-label">Title: </label>
+            <input type="text" id="title" name="title" class="form-control">
+            <br />
+
+            <label for="author_name" class="form-label">Author Display Name: </label>
+            <input type="text" id="author_name" name="author_name" class="form-control">
+            <br />
+
+            <label for="memo" class="form-label">Journal Description: </label><br />
+            <textarea type="text" id="memo" name="memo" class="form-control" rows=5></textarea>
+            <br />
+
+            <input type="checkbox" id="is_public" name="is_public" class="form-check-input">
+            <label for="is_public" class="form-check-label">Make this journal public? </label>
+            <br /> <br />
+
+            <div class="d-flex align-items-end">
+                <label for="journal_icon" class="form-label">Journal Icon: </label>
+            </div>
+            <input type="file" id="journal_icon" name="journal_icon" class="form-control">
+            <br /> <br />
+
+            <div class="d-flex flex-row justify-content-between">
+                <input type="submit" class="btn btn-primary" style="width: 10rem" name="Update Form" value="Create Journal" />
+                <a href="/profile/journals" class="btn btn-secondary" style="width: 10rem;">Cancel</a>
+            </div>
+        </form>
+        {{form.errors}}
+    </div>
+</div>
+{% endblock %}

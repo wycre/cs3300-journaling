@@ -1,0 +1,23 @@
+<!-- inherit from base.html-->
+{% extends "base_template.html" %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+
+    <div>
+        <h1 class="text-center">Welcome to [UNNAMED JOURNALING APP]</h1>
+
+        <p class="text-body fs-5 text-center">
+            Things are still in development, but for now you can
+            <a href="http://localhost:8000/public">see a list of public journals</a>.
+        </p>
+
+        <div>
+            <p class="text-body fs-5 text-center">
+                In the future, you will be able to <a href="#">Login</a> and <a href="#">Sign Up</a>.
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
