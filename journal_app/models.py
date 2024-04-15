@@ -16,3 +16,4 @@ class Post(models.Model):
     title = models.CharField(max_length=200, blank=False)
     content = models.TextField(max_length=500, blank=False) # TODO make rich text
     journal = models.ForeignKey(Journal, on_delete=models.CASCADE, blank=False)
+    last_modified = models.DateTimeField(auto_now=True)

@@ -56,7 +56,7 @@ def detail_journal(request):
 
             # otherwise send journal details
             context["journal"] = Journal.objects.get(id=journal_id)
-            context["posts"] = Post.objects.filter(journal=context["journal"])
+            context["posts"] = Post.objects.filter(journal=context["journal"]).order_by('-last_modified')
             return render(request, "public/detail_journal.html", context)
 
         except Journal.DoesNotExist:
