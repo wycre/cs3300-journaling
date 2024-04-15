@@ -28,4 +28,5 @@ urlpatterns = [
     path('journal', views.detail_journal, name='detail_journal'),
     path('journal/new', views.new_journal, name='new_journal'),
     path('journal/delete', views.delete_journal, name='delete_journal'),
+    path('post', views.detail_post, name='detail_post'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

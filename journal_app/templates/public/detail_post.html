@@ -1,0 +1,24 @@
+<!-- inherit from base.html-->
+{% extends "base_template.html" %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+
+
+<div class="container m-4 border rounded p-2" style="max-width: 80rem; margin: 1rem auto 1rem !important;">
+    <div class="d-flex align-items-start">
+        <div class="container">
+            <h1>{{ post.title }}</h1>
+            <p class="text-secondary">By {{ journal.author_name }}</p>
+            <p class="text-body">{{ post.content|linebreaksbr }}</p>
+        </div>
+        <div class="container align-self-start p-0 d-flex flex-column">
+            <img src="{{ journal.journal_icon.url }}" alt="Journal Icon" class="img-fluid rounded align-self-end" style="max-height: 150px; width: 150px; float: right;" />
+            <a href="/post/edit?p={{ post.id }}" class="btn btn-secondary align-self-end mt-1" style="width: 150px; float: right">Edit Post</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

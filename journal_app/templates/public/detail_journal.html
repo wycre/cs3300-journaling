@@ -21,7 +21,17 @@
 
     <div class="container-fluid">
         <h3>All Posts:</h3>
-        <p>TODO: LIST POSTS HERE</p>
+            {% for post in posts %}
+                <a href="/post?p={{ post.id }}" class="unstyled-link">
+                    <div class="container-fluid border rounded p-2 mb-1">
+                        <h5>{{ post.title }}</h5>
+                        <hr />
+                        <p class="text-body">
+                            {{ post.content|truncatechars:50 }}
+                        </p>
+                    </div>
+                </a>
+            {% endfor %}
     </div>
 </div>
 

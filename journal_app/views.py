@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django import forms
 
 from journal_app.forms import JournalForm
-from journal_app.models import Journal
+from journal_app.models import Journal, Post
 
 
 # Create your views here.
@@ -56,11 +56,13 @@ def detail_journal(request):
 
             # otherwise send journal details
             context["journal"] = Journal.objects.get(id=journal_id)
+            context["posts"] = Post.objects.filter(journal=context["journal"])
             return render(request, "public/detail_journal.html", context)
 
         except Journal.DoesNotExist:
             return redirect('/public?invalid_id=1')
 
+    # TODO: Move edit to new view
     if request.method == "POST":
         form = JournalForm(request.POST, request.FILES)
 
@@ -164,6 +166,32 @@ def delete_journal(request):
             if form.is_valid():
                 journal.delete()
                 return redirect('/public')
+
+        except Journal.DoesNotExist:
+            return redirect('/public?invalid_id=1')
+
+
+
+def detail_post(request):
+    """Shows details about a specific post"""
+    context = {}
+
+    post_id = request.GET.get("p", False)
+
+
+    # Guard clause if no id provided
+    if not post_id:
+        # TODO modify list_journals to popup a warning if this happens
+        redirect('/public?invalid_p=1')
+
+    # Begin logic branch
+    if request.method == "GET":
+
+        try:
+            # otherwise send journal details
+            context["post"] = Post.objects.get(id=post_id)
+            context["journal"] = Journal.objects.get(id=context["post"].journal.id)
+            return render(request, "public/detail_post.html", context)
 
         except Journal.DoesNotExist:
             return redirect('/public?invalid_id=1')
