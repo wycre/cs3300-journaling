@@ -10,3 +10,9 @@ class Journal(models.Model):
     memo = models.TextField(max_length=500, blank=False)
     is_public = models.BooleanField(default=False)
     journal_icon = models.ImageField(upload_to='uploads/journal_icons', default='defaults/journal_icon.svg')
+
+class Post(models.Model):
+    """A Post in a Journal"""
+    title = models.CharField(max_length=200, blank=False)
+    content = models.TextField(max_length=500, blank=False) # TODO make rich text
+    journal = models.ForeignKey(Journal, on_delete=models.CASCADE, blank=False)
