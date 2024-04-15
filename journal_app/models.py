@@ -1,4 +1,5 @@
 from django.db import models
+from prose.fields import RichTextField
 
 # Create your models here.
 
@@ -14,6 +15,6 @@ class Journal(models.Model):
 class Post(models.Model):
     """A Post in a Journal"""
     title = models.CharField(max_length=200, blank=False)
-    content = models.TextField(max_length=500, blank=False) # TODO make rich text
+    content = RichTextField()
     journal = models.ForeignKey(Journal, on_delete=models.CASCADE, blank=False)
     last_modified = models.DateTimeField(auto_now=True)

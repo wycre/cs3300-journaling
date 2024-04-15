@@ -11,7 +11,7 @@
         <div class="container">
             <h1>{{ post.title }}</h1>
             <p class="text-secondary">By {{ journal.author_name }}</p>
-            <p class="text-body">{{ post.content|linebreaksbr }}</p>
+            <p class="text-body">{{ post.content|safe }}</p>
         </div>
         <div class="container align-self-start p-0 d-flex flex-column">
             <img src="{{ journal.journal_icon.url }}" alt="Journal Icon" class="img-fluid rounded align-self-end" style="max-height: 150px; width: 150px; float: right;" />

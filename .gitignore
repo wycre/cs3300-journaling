@@ -1,5 +1,6 @@
 # User Data Files
 journal_app/media/uploads
+journal_app/media/prose
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
