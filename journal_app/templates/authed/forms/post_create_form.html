@@ -1,0 +1,29 @@
+<!-- inherit from base.html-->
+{% extends "base_template.html" %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+    <h2 class="centered-body-narrow">New Post</h2>
+<div class="container m-4 border rounded p-2 centered-body-narrow">
+    <div>
+        <h4>Drafting post for {{ journal.title }}</h4>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="title" class="form-label">Title: </label>
+            <input type="text" id="title" name="title" class="form-control">
+            <br />
+
+            <label for="content" class="form-label">Post Content: </label><br />
+            <textarea type="text" id="content" name="content" class="form-control" rows=5></textarea>
+            <br />
+
+            <div class="d-flex flex-row justify-content-between">
+                <input type="submit" class="btn btn-primary" id="submit" style="width: 10rem" name="Update Form" value="Create Journal" />
+                <a href="/journal?id={{ journal.id }}" class="btn btn-secondary" style="width: 10rem;">Cancel</a>
+            </div>
+        </form>
+        {{form.errors}}
+    </div>
+</div>
+{% endblock %}

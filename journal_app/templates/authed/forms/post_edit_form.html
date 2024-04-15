@@ -1,0 +1,34 @@
+<!-- inherit from base.html-->
+{% extends "base_template.html" %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+    <h2 class="centered-body-narrow">Edit Post</h2>
+<div class="container m-4 border rounded p-2 centered-body-narrow">
+    <div>
+        <h4>Editing {{ post.title }}</h4>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="title" class="form-label">Title: </label>
+            <input type="text" id="title" name="title" class="form-control" value="{{ post.title }}">
+            <br />
+
+            <label for="content" class="form-label">Post Content: </label><br />
+            <textarea type="text" id="content" name="content" class="form-control" rows=5>{{ post.content }}</textarea>
+            <br />
+
+            <div class="d-flex flex-row justify-content-between">
+                <input type="submit" id="submit" class="btn btn-primary ms-1" style="width:10rem" name="Update Form" value="Save Changes" />
+                <a href="/post?p={{ post.id }}" class="btn btn-secondary flex-shrink-1 ms-1" style="width: 10rem;">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 100%">
+                        <p class="m-0">Cancel</p>
+                    </div>
+                </a>
+                <a href="/post/delete?p={{ post.id }}" class="btn btn-danger ms-1 flex-shrink-1" style="width:10rem">Delete Post</a>
+            </div>
+        </form>
+        {{form.errors}}
+    </div>
+</div>
+{% endblock %}

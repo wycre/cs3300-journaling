@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django import forms
 
-from journal_app.forms import JournalForm
+from journal_app.forms import JournalForm, PostForm
 from journal_app.models import Journal, Post
 
 
@@ -195,3 +195,128 @@ def detail_post(request):
 
         except Journal.DoesNotExist:
             return redirect('/public?invalid_id=1')
+
+
+def new_post(request):
+    """Makes a new post"""
+
+    context = {}
+
+    journal_id = request.GET.get("id", False)
+
+    if not journal_id:
+        # TODO modify list_journals to popup a warning if this happens
+        redirect('/public?invalid_id=1')
+
+
+    # TODO: Add User Auth Check for Journal Ownership
+
+    # Make Empty Journal
+    if request.method == "GET":
+        form = PostForm()
+        context["form"] = form
+        context["journal"] = Journal.objects.get(id=journal_id)
+
+        return render(request, "authed/forms/post_create_form.html", context)
+
+    # Handle Filled Journal
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+
+        # Apply form values to db
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+
+            post = Post.objects.create(title=title, content=content, journal=Journal.objects.get(id=journal_id))
+
+            context["post"] = post
+            return redirect('/post?p={}'.format(post.id))
+
+        else:
+            context["form"] = form
+            return render(request, "authed/forms/post_create_form.html", context)
+
+
+def edit_post(request):
+    """Edits an existing post"""
+
+    context = {}
+
+    post_id = request.GET.get("p", False)
+
+    if not post_id:
+        # TODO modify list_journals to popup a warning if this happens
+        redirect('/public?invalid_p=1')
+
+
+    # TODO: Add User Auth Check for post Ownership
+
+    # Make Empty Journal
+    if request.method == "GET":
+        context["post"] = Post.objects.get(id=post_id)
+
+        form = PostForm(instance=context["post"])
+        context["form"] = form
+
+        return render(request, "authed/forms/post_edit_form.html", context)
+
+    # Handle Filled Journal
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        post = Post.objects.get(id=post_id)
+
+        # Apply form values to db
+        if form.is_valid():
+            post.title = form.cleaned_data["title"]
+            post.content = form.cleaned_data["content"]
+
+            post.save()
+
+            context["post"] = post
+            return redirect('/post?p={}'.format(post.id))
+
+        else:
+            context["form"] = form
+            return render(request, "authed/forms/post_edit_form.html", context)
+
+
+def delete_post(request):
+    """Form to delete a post"""
+    context = {}
+
+    post_id = request.GET.get("p", False)
+
+    # Guard clause if no id provided
+    if not post_id:
+        # TODO modify list_journals to popup a warning if this happens
+        redirect('/public?invalid_p=1')
+
+    # Begin logic branch
+    if request.method == "GET":
+
+        try:
+            context["post"] = Post.objects.get(id=post_id)
+
+            form = forms.Form()
+            context["form"] = form
+
+            return render(request, "authed/forms/post_delete_form.html", context)
+
+        except Post.DoesNotExist:
+            return redirect('/public?invalid_p=1')
+
+    if request.method == "POST":
+        form = forms.Form(request.POST)
+
+        try:
+            post = Post.objects.get(id=post_id)
+            context["post"] = post
+
+            # Delete form
+            if form.is_valid():
+                post.delete()
+                return redirect('/public')
+
+        except Journal.DoesNotExist:
+            return redirect('/public?invalid_p=1')

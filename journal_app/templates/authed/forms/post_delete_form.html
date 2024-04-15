@@ -1,0 +1,25 @@
+<!-- inherit from base.html-->
+{% extends "base_template.html" %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+    <h2 class="centered-body-narrow">Delete Post</h2>
+<div class="container m-4 border rounded p-2 centered-body-narrow">
+    <div>
+        <h2 class="text-danger-emphasis text-center">Warning</h2>
+        <p class="text-body-emphasis text-center">
+            This action cannot be undone. <br />
+            Are you sure you want to continue?
+        </p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="d-flex flex-row justify-content-center">
+                <a href="/post?p={{ post.id }}" class="btn btn-secondary ms-3">Cancel</a>
+                <input type="submit" class="btn btn-danger ms-3" name="submit" value="Delete" />
+            </div>
+        </form>
+        {{form.errors}}
+    </div>
+</div>
+{% endblock %}

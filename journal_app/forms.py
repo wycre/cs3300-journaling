@@ -1,6 +1,6 @@
 from django import forms
 
-from journal_app.models import Journal
+from journal_app.models import Journal, Post
 
 
 class JournalForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class JournalForm(forms.ModelForm):
         super(JournalForm, self).__init__(*args, **kwargs)
         self.fields['journal_icon'].required = False
         self.fields['memo'].strip = False
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']
