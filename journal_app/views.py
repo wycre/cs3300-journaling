@@ -71,7 +71,7 @@ def detail_journal(request):
             # Apply form values to db
             if form.is_valid():
                 journal.title = form.cleaned_data["title"]
-                journal.author = form.cleaned_data["author_name"]
+                journal.author_name = form.cleaned_data["author_name"]
                 journal.memo = form.cleaned_data["memo"]
                 journal.is_public = form.cleaned_data["is_public"]
 

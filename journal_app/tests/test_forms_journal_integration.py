@@ -11,6 +11,7 @@ from journal_app.models import Journal
 
 # Create your tests here.
 class JournalFormTest(TestCase):
+    """Test all forms related to Journals"""
 
     @classmethod
     def setUpClass(cls):
@@ -20,13 +21,14 @@ class JournalFormTest(TestCase):
     def tearDownClass(cls):
         cls.driver.quit()
 
+
     def test_form(self):
         # Initialize Test Values
         test_image = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "tests", "test_image.jpg")
+            os.path.join(os.path.dirname(__file__), "assets", "test_image.jpg")
         )
 
-        # Initialize Selenium
+        # Make a new Journal
         self.driver.get('http://localhost:8000/journal/new')
 
         # Get Form Fields
@@ -56,10 +58,42 @@ class JournalFormTest(TestCase):
         assert 'Newlines Supported' in self.driver.page_source
         assert 'defaults/journal_icon.svg' not in self.driver.page_source
 
-    def tearDown(self):
-        # Delete Test Journal
-        self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div[1]/div[2]/a').send_keys(Keys.ENTER)
 
+
+        # Test Edit Form
+        self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div[1]/div[2]/a').send_keys(Keys.ENTER)
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(lambda condition: 'Edit Journal Details' in self.driver.page_source)
+
+        # Get Form Fields
+        journal_title = self.driver.find_element(By.CSS_SELECTOR, '#title')
+        journal_author = self.driver.find_element(By.CSS_SELECTOR, '#author_name')
+        journal_memo = self.driver.find_element(By.CSS_SELECTOR, '#memo')
+        submit = self.driver.find_element(By.CSS_SELECTOR, '#submit')
+
+        # Edit Form Values
+        journal_title.clear()
+        journal_title.send_keys('Test Journal Beta')
+
+        journal_author.clear()
+        journal_author.send_keys('John Doe IV')
+
+        journal_memo.send_keys(' Test Memo Edit')
+
+        submit.send_keys(Keys.ENTER)
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(lambda condition: 'Test Journal Beta' in self.driver.page_source)
+
+        assert 'Test Journal Beta' in self.driver.page_source
+        assert 'John Doe IV' in self.driver.page_source
+        assert 'Test Memo Edit' in self.driver.page_source
+        assert 'defaults/journal_icon.svg' not in self.driver.page_source
+
+
+
+
+        # Test Delete
+        self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div[1]/div[2]/a').send_keys(Keys.ENTER)
         wait = WebDriverWait(self.driver, 10)
         wait.until(lambda condition: 'Edit Journal Details' in self.driver.page_source)
 
@@ -69,3 +103,8 @@ class JournalFormTest(TestCase):
         wait.until(lambda condition: 'This action cannot be undone.' in self.driver.page_source)
 
         self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div/form/div/input').send_keys(Keys.ENTER)
+
+        assert 'Test Journal Beta' not in self.driver.page_source
+
+
+
