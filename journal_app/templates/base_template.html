@@ -17,6 +17,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link href="https://unpkg.com/trix@2.0.7/dist/trix.css" media="all" rel="stylesheet">
+    <link href="/static/prose/editor.css" media="all" rel="stylesheet">
 
     <style>
         body {
@@ -79,6 +83,59 @@
         .text-secondary {
             color: #BBC0C4 !important;
         }
+
+
+
+        .attachment > a > img {
+            max-width: 100%;
+        }
+
+        .attachment > a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        pre {
+            font-family: "Courier Prime", monospace;
+            background: #24282c;
+            border: 1px solid #aaaa;
+            border-left: 3px solid aqua;
+            color: #ddd;
+            page-break-inside: avoid;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        .django-prose-editor > pre {
+            font-family: "Courier Prime", monospace !important;
+            background: #24282c !important;
+            border: 1px solid #aaaa !important;
+            border-left: 3px solid aqua !important;
+            color: #ddd !important;
+            page-break-inside: avoid !important;
+            font-size: 15px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 1.6em !important;
+            max-width: 100% !important;
+            overflow: auto !important;
+            padding: 1em 1.5em !important;
+            display: block !important;
+            word-wrap: break-word !important;
+        }
+
+        {% block styles %}
+        {% endblock %}
+
     </style>
 </head>
 

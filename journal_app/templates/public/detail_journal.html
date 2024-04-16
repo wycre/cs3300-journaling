@@ -28,7 +28,7 @@
                         <h5>{{ post.title }}</h5>
                         <hr />
                         <p class="text-body">
-                            {{ post.content|safe|truncatechars:30 }}
+                            {{ post.content|safe|striptags|truncatechars:30 }}
                         </p>
                     </div>
                 </a>
