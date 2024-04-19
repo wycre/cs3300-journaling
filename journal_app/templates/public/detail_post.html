@@ -17,8 +17,10 @@
                 <div class="d-flex flex-row justify-content-between">
                     <h1 class="flex-grow-1">{{ post.title }}</h1>
                     <div class="container p-0 d-flex flex-column" style="flex-basis: 150px">
-                        <a href="/post/edit?p={{ post.id }}" class="btn btn-secondary align-self-end mt-1"
+                        {% if post.journal.user == request.user %}
+                        <a href="{% url 'edit_post' %}?p={{ post.id }}" class="btn btn-secondary align-self-end mt-1"
                            style="width: 150px; float: right">Edit Post</a>
+                        {% endif %}
                     </div>
                 </div>
                 <p class="text-secondary">By {{ journal.author_name }}</p>

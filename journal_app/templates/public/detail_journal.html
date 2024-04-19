@@ -15,8 +15,10 @@
         </div>
         <div class="container align-self-start p-0 d-flex flex-column">
             <img src="{{ journal.journal_icon.url }}" alt="Journal Icon" class="img-fluid rounded align-self-end" style="max-height: 150px; width: 150px; float: right;" />
-            <a href="/journal?id={{ journal.id }}&edit=1" class="btn btn-secondary align-self-end mt-1" style="width: 150px; float: right">Edit Journal</a>
+            {% if journal.user == request.user %}
+            <a href="{% url 'edit_journal' %}?id={{ journal.id }}" class="btn btn-secondary align-self-end mt-1" style="width: 150px; float: right">Edit Journal</a>
             <a href="/post/new?id={{ journal.id }}" class="btn btn-secondary align-self-end mt-1" style="width: 150px; float: right">New Post</a>
+            {% endif %}
         </div>
     </div>
 

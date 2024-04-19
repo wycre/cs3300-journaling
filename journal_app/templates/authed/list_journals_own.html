@@ -39,8 +39,8 @@
 
                                 {# This div holds the outlink buttons #}
                                 <div class="d-flex mt-2 justify-content-around flex-row">
-                                    <a href="/journal?id={{ i.id }}&edit=1" class="btn btn-secondary flex-grow-1 position-relative" style="flex-basis: 0;">Edit</a>
-                                    <a href="/journal/delete?id={{ i.id }}" class="btn btn-danger ms-2 flex-grow-1 position-relative" style="flex-basis: 0;">Delete</a>
+                                    <a href="{% url 'edit_journal' %}?id={{ i.id }}" class="btn btn-secondary flex-grow-1 position-relative" style="flex-basis: 0;">Edit</a>
+                                    <a href="{% url 'delete_journal' %}?id={{ i.id }}" class="btn btn-danger ms-2 flex-grow-1 position-relative" style="flex-basis: 0;">Delete</a>
                                 </div>
 
                             </div>
