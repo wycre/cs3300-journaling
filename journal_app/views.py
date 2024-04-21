@@ -12,12 +12,12 @@ from journal_app.models import Journal, Post
 
 # Create your views here.
 def index(request):
-    return render(request, "public/homepage.html", {})
+    return render(request, "public/homepage.html", {"request":request})
 
 
 def list_journals(request):
     """Lists all public journals"""
-    context = {}
+    context = {"request":request}
 
     context["journals"] = Journal.objects.all().filter(is_public=True)
 
@@ -28,7 +28,7 @@ def list_journals(request):
 @allowed_users(['user'])
 def list_journals_own(request):
     """Lists all journals owned by the requestor (TODO authorization not impl yet)"""
-    context = {}
+    context = {"request":request}
 
     context["journals"] = Journal.objects.all()
 
@@ -67,7 +67,7 @@ def detail_journal(request):
 @allowed_users(['user'])
 def new_journal(request):
     """Form for creating a Journal"""
-    context = {}
+    context = {"request":request}
 
     # TODO: Add User Auth Check for Journal Ownership
 
@@ -105,7 +105,7 @@ def new_journal(request):
 @allowed_users(['user'])
 def edit_journal(request):
     """Handles editing of journals"""
-    context = {}
+    context = {"request":request}
 
     journal_id = request.GET.get("id", False)
 
@@ -159,7 +159,7 @@ def edit_journal(request):
 @allowed_users(['user'])
 def delete_journal(request):
     """Form to delete a journal"""
-    context = {}
+    context = {"request":request}
 
     journal_id = request.GET.get("id", False)
 
@@ -227,7 +227,7 @@ def detail_post(request):
 def new_post(request):
     """Makes a new post"""
 
-    context = {}
+    context = {"request":request}
 
     journal_id = request.GET.get("id", False)
 
@@ -269,7 +269,7 @@ def new_post(request):
 def edit_post(request):
     """Edits an existing post"""
 
-    context = {}
+    context = {"request":request}
 
     post_id = request.GET.get("p", False)
 
@@ -312,7 +312,7 @@ def edit_post(request):
 @allowed_users(['user'])
 def delete_post(request):
     """Form to delete a post"""
-    context = {}
+    context = {"request":request}
 
     post_id = request.GET.get("p", False)
 
@@ -368,5 +368,5 @@ def register_page(request):
             messages.success(request, "Account was created for " + username)
             return redirect('login')
 
-    context = {'form': form}
+    context = {'form': form, "request":request}
     return render(request, 'registration/register.html', context)
