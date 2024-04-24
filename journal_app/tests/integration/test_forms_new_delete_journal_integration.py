@@ -14,7 +14,7 @@ from journal_app.models import Journal
 
 # Create your tests here.
 class JournalLoginTest(StaticLiveServerTestCase):
-    """Test all forms related to Journals"""
+    """Test new and delete forms for Journals"""
 
     @classmethod
     def setUpClass(cls):
@@ -29,7 +29,7 @@ class JournalLoginTest(StaticLiveServerTestCase):
     def test_form(self):
         # Initialize Test Values
         test_image = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "assets", "test_image.jpg")
+            os.path.join(os.path.dirname(__file__), "../assets", "test_image.jpg")
         )
 
         # Run Registration
@@ -68,6 +68,7 @@ class JournalLoginTest(StaticLiveServerTestCase):
         submit.send_keys(Keys.RETURN)
         wait.until(lambda condition: self.driver.current_url == 'http://localhost:8000/')
 
+
         # Make a new Journal
         self.driver.get('http://localhost:8000/journal/new')
         wait.until(lambda condition: self.driver.current_url == 'http://localhost:8000/journal/new')
@@ -99,61 +100,21 @@ class JournalLoginTest(StaticLiveServerTestCase):
         assert 'Newlines Supported' in self.driver.page_source
         assert 'defaults/journal_icon.svg' not in self.driver.page_source
 
-
-
-        # Test Edit Form
-        self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div[1]/div[2]/a').send_keys(Keys.ENTER)
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(lambda condition: 'Edit Journal Details' in self.driver.page_source)
-
-        # Get Form Fields
-        journal_title = self.driver.find_element(By.CSS_SELECTOR, '#title')
-        journal_author = self.driver.find_element(By.CSS_SELECTOR, '#author_name')
-        journal_memo = self.driver.find_element(By.CSS_SELECTOR, '#memo')
-        submit = self.driver.find_element(By.CSS_SELECTOR, '#submit')
-
-        # Edit Form Values
-        journal_title.clear()
-        journal_title.send_keys('Test Journal Beta')
-
-        journal_author.clear()
-        journal_author.send_keys('John Doe IV')
-
-        journal_memo.send_keys(' Test Memo Edit')
-
-        submit.send_keys(Keys.ENTER)
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(lambda condition: 'Test Journal Beta' in self.driver.page_source)
-
-        assert 'Test Journal Beta' in self.driver.page_source
-        assert 'John Doe IV' in self.driver.page_source
-        assert 'Test Memo Edit' in self.driver.page_source
-        assert 'defaults/journal_icon.svg' not in self.driver.page_source
-
-
-
-
         # Test Delete
+        # Open Edit Form
         self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div[1]/div[2]/a').send_keys(Keys.ENTER)
         wait = WebDriverWait(self.driver, 10)
         wait.until(lambda condition: 'Edit Journal Details' in self.driver.page_source)
 
+        # Open Delete Form
         self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div/form/div[2]/a[2]').send_keys(Keys.ENTER)
-
         wait = WebDriverWait(self.driver, 10)
         wait.until(lambda condition: 'This action cannot be undone.' in self.driver.page_source)
 
         self.driver.find_element(By.XPATH, '/html/body/div/div/div/div/div/form/div/input').send_keys(Keys.ENTER)
 
-        assert 'Test Journal Beta' not in self.driver.page_source
+        assert 'Test Journal Alpha' not in self.driver.page_source
 
-
-        # Log out user
-        # Logout user
-        logout = self.driver.find_element(By.XPATH, '/html/body/div[1]/nav/div/div/div/div/a[4]')
-        logout.send_keys(Keys.RETURN)
-
-        #User.objects.get(username='testuser' + rand_num).delete()
 
 
 
