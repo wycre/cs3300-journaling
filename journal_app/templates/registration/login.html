@@ -2,43 +2,30 @@
 {% extends 'base_template.html' %}
 
 {% block content %}
+    <h2 class="centered-body-narrow">Login</h2>
+    <div class="container m-4 border rounded p-2 centered-body-narrow">
+        <div>
+            {% if form.errors %}
+                <p class="text-danger">Incorrect username or password.</p>
+            {% endif %}
 
-  <!-- doesn't work correctly - do not want to do all messages-->
-  {% for message in messages %}
-    <p>{{message}}</p>
-  {% endfor %}
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
 
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
+                <label for="username" class="form-label">Username: </label>
+                <input type="text" id="username" name="username" class="form-control">
+                <br />
+                <label for="password" class="form-label">Password: </label>
+                <input type="password" id="password" name="password" class="form-control">
+                <br />
+                <input type="submit" value="login" class="btn btn-primary">
+                <input type="hidden" name="next" value="{{ next }}">
+                <br /><br />
+            </form>
 
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
-    {% endif %}
-  {% endif %}
-
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-  </form>
-
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-  <p><a href="{% url 'register_page' %}">Register</a></p>
-
+            {# Assumes you setup the password_reset view in your URLconf #}
+            <a href="{% url 'password_reset' %}" class="btn btn-secondary">Forgot Password</a>
+            <a href="{% url 'register_page' %}" class="btn btn-secondary">Register</a>
+        </div>
+    </div>
 {% endblock %}
