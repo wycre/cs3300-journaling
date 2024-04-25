@@ -83,5 +83,5 @@ class AuthenticationTests(StaticLiveServerTestCase):
         logout = self.driver.find_element(By.XPATH, '/html/body/div[1]/nav/div/div/div/div/a[4]')
         logout.send_keys(Keys.RETURN)
 
-        time.sleep(1)
+        time.sleep(1)  # Must manually wait as the URL will be the same
         assert r'<a class="nav-link" href="/profile/login/?next=/?">Login</a>' in self.driver.page_source

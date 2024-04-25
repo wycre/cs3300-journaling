@@ -3,15 +3,17 @@ from urllib.parse import urlencode
 from django.test import Client, TestCase
 
 from journal_app.models import Journal, Post
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class ViewTest(TestCase):
     """Tests all the views"""
 
     def setUp(self):
+        Group.objects.create(name='user')
         self.user = User.objects.create(username='test', email="test@email.com")
         self.user.set_password('password')
+        self.user.groups.add(Group.objects.get(name='user'))
         self.user.save()
         self.journal = Journal.objects.create(title='Test Journal', author_name="John Doe", memo="Description",
                                               is_public=True, user=self.user)
@@ -48,14 +50,23 @@ class ViewTest(TestCase):
     def test_new_journal(self):
         client = Client()
         client.login(username='test', password='password')
-        response = client.get('/journal/new')
 
+        # Test GET
+        response = client.get('/journal/new')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'authed/forms/journal_create_form.html')
 
-        data = urlencode({'title': 'Test Journal', 'author_name': 'John Doe',
-                          'memo': 'Description', 'is_public': True})
-        response = client.post('journal/new', data, content_type="application/x-www-form-urlencoded")
+        # Test POST
+        data = {'title': 'Test Journal Alpha', 'author_name': 'John Doe IV',
+                'memo': 'Description Alpha', 'is_public': True}
+        response = client.post('/journal/new', data)
+        self.assertEqual(response.status_code, 302)
+        response = client.get(response.url)  # GET redirect URL
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'public/detail_journal.html')
+        self.assertContains(response, 'Test Journal Alpha')
+        self.assertContains(response, 'John Doe IV')
+        self.assertContains(response, 'Description Alpha')
 
     def test_detail_post(self):
         client = Client()
