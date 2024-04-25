@@ -14,6 +14,9 @@ class Journal(models.Model):
     journal_icon = models.ImageField(upload_to='uploads/journal_icons', default='defaults/journal_icon.svg')
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class Post(models.Model):
     """A Post in a Journal"""
@@ -21,3 +24,6 @@ class Post(models.Model):
     content = RichTextField()
     journal = models.ForeignKey(Journal, on_delete=models.CASCADE, blank=False)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
