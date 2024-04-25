@@ -389,12 +389,8 @@ def register_page(request):
             group = Group.objects.get(name='user')
             user.groups.add(group)
 
-            print(form.errors)
-
             messages.success(request, "Account was created for " + username)
             return redirect('login')
-
-        print(form.errors)
 
     context = {'form': form, "request":request}
     return render(request, 'registration/register.html', context)
