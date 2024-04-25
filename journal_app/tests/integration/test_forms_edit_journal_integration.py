@@ -41,7 +41,7 @@ class JournalLoginTest(StaticLiveServerTestCase):
         email = self.driver.find_element(By.XPATH, '//*[@id="id_email"]')
         password1 = self.driver.find_element(By.XPATH, '//*[@id="id_password1"]')
         password2 = self.driver.find_element(By.XPATH, '//*[@id="id_password2"]')
-        submit = self.driver.find_element(By.CSS_SELECTOR, '.container > form:nth-child(2) > input:nth-child(8)')
+        submit = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div/form/input[6]')
 
         # Fill Form
         rand_num = str(random.randint(1, 100))
@@ -58,9 +58,9 @@ class JournalLoginTest(StaticLiveServerTestCase):
         wait.until(lambda condition: self.driver.current_url == 'http://localhost:8000/profile/login/')
 
         # Log In
-        username = self.driver.find_element(By.XPATH, '//*[@id="id_username"]')
-        password1 = self.driver.find_element(By.XPATH, '//*[@id="id_password"]')
-        submit = self.driver.find_element(By.CSS_SELECTOR, '.container > form:nth-child(2) > input:nth-child(3)')
+        username = self.driver.find_element(By.XPATH, '//*[@id="username"]')
+        password1 = self.driver.find_element(By.XPATH, '//*[@id="password"]')
+        submit = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div/div/form/input[4]')
 
         username.send_keys("testuser" + rand_num)
         password1.send_keys("testpass1")

@@ -27,10 +27,10 @@ def list_journals(request):
 @login_required(login_url='login')
 @allowed_users(['user'])
 def list_journals_own(request):
-    """Lists all journals owned by the requestor (TODO authorization not impl yet)"""
+    """Lists all journals owned by the requestor"""
     context = {"request":request}
 
-    context["journals"] = Journal.objects.all()
+    context["journals"] = Journal.objects.filter(user=request.user)
 
     return render(request, "authed/list_journals_own.html", context)
 
@@ -122,6 +122,9 @@ def edit_journal(request):
             journal = Journal.objects.get(id=journal_id)
             context["journal"] = journal
 
+            if context["journal"].user != request.user:
+                return redirect('/profile/journals?unauthorized=1')
+
             # Apply form values to db
             if form.is_valid():
                 journal.title = form.cleaned_data["title"]
@@ -149,6 +152,9 @@ def edit_journal(request):
     # GET behavior
     context["journal"] = Journal.objects.get(id=journal_id)
 
+    if context["journal"].user != request.user:
+        return redirect('/profile/journals?unauthorized=1')
+
     form = JournalForm(instance=context["journal"])
     context["form"] = form
 
@@ -174,6 +180,9 @@ def delete_journal(request):
         try:
             context["journal"] = Journal.objects.get(id=journal_id)
 
+            if context["journal"].user != request.user:
+                return redirect('/profile/journals?unauthorized=1')
+
             form = forms.Form()
             context["form"] = form
 
@@ -188,6 +197,9 @@ def delete_journal(request):
         try:
             journal = Journal.objects.get(id=journal_id)
             context["journal"] = journal
+
+            if context["journal"].user != request.user:
+                return redirect('/profile/journals?unauthorized=1')
 
             # Delete form
             if form.is_valid():
@@ -283,6 +295,9 @@ def edit_post(request):
     if request.method == "GET":
         context["post"] = Post.objects.get(id=post_id)
 
+        if context["post"].journal.user != request.user:
+            return redirect('/profile/journals?unauthorized=1')
+
         form = PostForm(instance=context["post"])
         context["form"] = form
 
@@ -292,6 +307,9 @@ def edit_post(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         post = Post.objects.get(id=post_id)
+
+        if post.journal.user != request.user:
+            return redirect('/profile/journals?unauthorized=1')
 
         # Apply form values to db
         if form.is_valid():
@@ -327,6 +345,9 @@ def delete_post(request):
         try:
             context["post"] = Post.objects.get(id=post_id)
 
+            if context["post"].journal.user != request.user:
+                return redirect('/profile/journals?unauthorized=1')
+
             form = forms.Form()
             context["form"] = form
 
@@ -341,6 +362,9 @@ def delete_post(request):
         try:
             post = Post.objects.get(id=post_id)
             context["post"] = post
+
+            if context["post"].journal.user != request.user:
+                return redirect('/profile/journals?unauthorized=1')
 
             # Delete form
             if form.is_valid():

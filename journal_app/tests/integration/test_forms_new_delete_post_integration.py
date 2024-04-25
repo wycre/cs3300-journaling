@@ -36,7 +36,7 @@ class PostNewDeleteTest(LiveServerTestCase):
         email = self.driver.find_element(By.XPATH, '//*[@id="id_email"]')
         password1 = self.driver.find_element(By.XPATH, '//*[@id="id_password1"]')
         password2 = self.driver.find_element(By.XPATH, '//*[@id="id_password2"]')
-        submit = self.driver.find_element(By.CSS_SELECTOR, '.container > form:nth-child(2) > input:nth-child(8)')
+        submit = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div/form/input[6]')
 
         # Fill Form
         rand_num = str(random.randint(1, 100))
@@ -53,9 +53,9 @@ class PostNewDeleteTest(LiveServerTestCase):
         wait.until(lambda condition: self.driver.current_url == 'http://localhost:8000/profile/login/')
 
         # Log In
-        username = self.driver.find_element(By.XPATH, '//*[@id="id_username"]')
-        password1 = self.driver.find_element(By.XPATH, '//*[@id="id_password"]')
-        submit = self.driver.find_element(By.CSS_SELECTOR, '.container > form:nth-child(2) > input:nth-child(3)')
+        username = self.driver.find_element(By.XPATH, '//*[@id="username"]')
+        password1 = self.driver.find_element(By.XPATH, '//*[@id="password"]')
+        submit = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div/div/form/input[4]')
 
         username.send_keys("testuser" + rand_num)
         password1.send_keys("testpass1")
@@ -72,7 +72,7 @@ class PostNewDeleteTest(LiveServerTestCase):
         body = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div/div/form/div[1]/trix-editor')
         submit = self.driver.find_element(By.XPATH, '//*[@id="submit"]')
 
-        title.send_keys("Test Post Alhpa")
+        title.send_keys("Test Post Alpha")
         body.send_keys("Test Body \n \n Newlines")
         body.send_keys(Keys.CONTROL, "i")
         body.send_keys("Italic Text as well")
@@ -85,7 +85,7 @@ class PostNewDeleteTest(LiveServerTestCase):
         assert "<em>Italic" in self.driver.page_source
 
         # Delete Post
-        temp = self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div/div/div/div[1]/div/a')
+        temp = self.driver.find_element(By.XPATH, '//*[@id="edit_post"]')
         temp.send_keys(Keys.RETURN)
         wait.until(lambda condition: "Edit Post" in self.driver.page_source)
 
