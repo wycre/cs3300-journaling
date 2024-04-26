@@ -19,7 +19,7 @@ def list_journals(request):
     """Lists all public journals"""
     context = {"request":request}
 
-    context["journals"] = Journal.objects.all().filter(is_public=True)
+    context["journals"] = Journal.objects.all().filter(is_public=True).order_by('-last_modified')
 
     return render(request, "public/list_journals.html", context)
 

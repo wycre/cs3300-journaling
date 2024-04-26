@@ -13,6 +13,7 @@ class Journal(models.Model):
     is_public = models.BooleanField(default=False)
     journal_icon = models.ImageField(upload_to='uploads/journal_icons', default='defaults/journal_icon.svg')
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    last_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
