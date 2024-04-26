@@ -14,6 +14,7 @@ class Journal(models.Model):
     journal_icon = models.ImageField(upload_to='uploads/journal_icons', default='defaults/journal_icon.svg')
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     last_modified = models.DateTimeField(auto_now=True)
+    latest_post = models.ForeignKey('Post', null=True, blank=True, on_delete=models.CASCADE, related_name='+')
 
     def __str__(self):
         return self.title

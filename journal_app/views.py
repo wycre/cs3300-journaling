@@ -265,8 +265,11 @@ def new_post(request):
         if form.is_valid():
             title = form.cleaned_data["title"]
             content = form.cleaned_data["content"]
+            journal = Journal.objects.get(id=journal_id)
 
-            post = Post.objects.create(title=title, content=content, journal=Journal.objects.get(id=journal_id))
+            post = Post.objects.create(title=title, content=content, journal=journal)
+            journal.latest_post = post
+            journal.save()
 
             context["post"] = post
             return redirect('/post?p={}'.format(post.id))
@@ -315,8 +318,11 @@ def edit_post(request):
         if form.is_valid():
             post.title = form.cleaned_data["title"]
             post.content = form.cleaned_data["content"]
+            journal = Journal.objects.get(id=post.journal.id)
 
             post.save()
+            journal.latest_post = post
+            journal.save()
 
             context["post"] = post
             return redirect('/post?p={}'.format(post.id))
