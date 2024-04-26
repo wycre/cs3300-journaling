@@ -14,7 +14,7 @@ from journal_app.models import Journal, Post
 
 
 # Create your tests here.
-class PostFormTests(LiveServerTestCase):
+class PostFormTests(StaticLiveServerTestCase):
     """Test Post Form Integration"""
 
     def login(self):
